@@ -1,11 +1,22 @@
 #!/usr/bin/env python3
 """Subarray"""
 
-
 def kadane(array: list) -> int:
-    """Implementation of Kadane's algorithm"""
-    raise NotImplementedError
+    array = [1,2,3,4,5,6,7,8,9,10]
+    total_Sum = 0
+    current_Sum = array[0]-1
 
+    
+    for i in range (0, len(array)):
+        current_Sum += array[i]
+        
+        if total_Sum < current_Sum:
+            total_Sum = current_Sum
+
+        if current_Sum < 0:
+            current_Sum = 0
+
+    return total_Sum
 
 def main():
     """This is the main function"""
