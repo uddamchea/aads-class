@@ -2,10 +2,8 @@
 """Subarray"""
 
 def kadane(array: list) -> int:
-    array = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
     total_Sum = 0
     current_Sum = array[0]-1
-
     
     for i in range (0, len(array)):
         current_Sum += array[i]
