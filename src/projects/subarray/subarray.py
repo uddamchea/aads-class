@@ -3,7 +3,7 @@
 
 def kadane(array: list) -> int:
     total_Sum = 0
-    current_Sum = array[0]-1
+    current_Sum = 0
     
     for i in range (0, len(array)):
         current_Sum += array[i]
@@ -11,7 +11,7 @@ def kadane(array: list) -> int:
         if total_Sum < current_Sum:
             total_Sum = current_Sum
 
-        if current_Sum < 0:
+        if current_Sum <= 0:
             current_Sum = 0
 
     return total_Sum
