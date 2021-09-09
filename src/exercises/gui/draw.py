@@ -48,6 +48,26 @@ class CircleCommand:
     def __str__(self):
         return f'<Command radius="{self.radius}" width="{str(self.width)}" color="{self.color}">Circle</Command>'
 
+class SquareCommand: 
+    def __init__(self, side, width=1, color="black"):
+        self.side = side
+        self.width = width
+        self.color = color
+    
+    def draw(self, turtle):
+        turtle.width(self.width)
+        turtle.pencolor(self.color)
+        turtle.forward(self.side)
+        turtle.left(90)
+        turtle.forward(self.side)
+        turtle.left(90)
+        turtle.forward(self.side)
+        turtle.left(90)
+        turtle.forward(self.side)
+        turtle.left(90)
+    
+    def __str__(self):
+        return f'<Command side="{self.side}" width="{str(self.width)}" color="{self.color}">Square</Command>'
 
 class BeginFillCommand:
     def __init__(self, color):
@@ -190,6 +210,12 @@ class DrawingApplication(tkinter.Frame):
                     width = float(attr["width"].value)
                     color = attr["color"].value.strip()
                     cmd = CircleCommand(radius, width, color)
+                
+                elif command == "Square":
+                    side = float(attr["side"].value)
+                    width = float(attr["width"].value)
+                    color = attr["color"].value.strip()
+                    cmd = SquareCommand(radius, width, color)
 
                 elif command == "BeginFill":
                     color = attr["color"].value.strip()
@@ -329,6 +355,13 @@ class DrawingApplication(tkinter.Frame):
         radiusSize.set(str(10))
         radiusEntry.pack()
 
+        sideLabel = tkinter.Label(sideBar, text="Side Length")
+        sideLabel.pack()
+        sideSize = tkinter.StringVar()
+        sideEntry = tkinter.Entry(sideBar, textvariable=sideSize)
+        sideSize.set(str(10))
+        sideEntry.pack()
+
         # A button widget calls an event handler when it is pressed. The circleHandler
         # function below is the event handler when the Draw Circle button is pressed.
         def circleHandler():
@@ -346,6 +379,13 @@ class DrawingApplication(tkinter.Frame):
             # the screen must have focus to receive the key press.
             screen.update()
             screen.listen()
+        
+        def squareHandler():
+            cmd = SquareCommand(
+                float(sideSize.get()), float(widthSize.get()), penColor.get()
+            )
+            cmd.draw(theTurtle)
+            self.graphicsCommands.append(cmd)
 
         # This creates the button widget in the sideBar. The fill=tkinter.BOTH causes the button
         # to expand to fill the entire width of the sideBar.
@@ -353,6 +393,11 @@ class DrawingApplication(tkinter.Frame):
             sideBar, text="Draw Circle", command=circleHandler
         )
         circleButton.pack(fill=tkinter.BOTH)
+
+        squareButton = tkinter.Button(
+            sideBar, text= "Draw Square", command=squareHandler
+        )
+        squareButton.pack(fill=tkinter.BOTH)
 
         # The color mode 255 below allows colors to be specified in RGB form (i.e. Red/
         # Green/Blue). The mode allows the Red value to be set by a two digit hexadecimal
