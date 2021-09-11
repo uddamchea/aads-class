@@ -35,7 +35,7 @@ def classify(people: dict) -> list[str]:
             if value[z] == "upper":
                 value[z] = 3
         people[key] = value
-    #print(people)
+    # print(people)
 
     for key, value in people.items():
         for e in range(len(value)):
@@ -43,9 +43,12 @@ def classify(people: dict) -> list[str]:
             a_string = "".join(strings)
             a_string=int(a_string)
         people[key] = a_string
-    print(people)
+    # print(people)
 
+    # Sort python dict by values
     # resultDict = {k: v for k,v in sorted(people.items(), key= lambda v: v[1], reverse=True)}
+
+    # Sort python dict by keys
     resultDict = [v[0] for v in sorted(people.items(), key=lambda kv: (-kv[1], kv[0]))]
 
     return resultDict
@@ -63,11 +66,12 @@ def read_file(filename: str) -> dict[str, str]:
         splitData.pop()
         cleanData = [s.replace(":", "") for s in splitData]
         dict[cleanData[0]] = "".join(cleanData[1:])
+    print(dict)
     return dict
 
 def main():
     """Entry point"""
-    people = read_file("data/projects/classy/classy02.txt")
+    people = read_file("data/projects/classy/classy01.txt")
     print(classify(people))
 
 if __name__ == "__main__":
