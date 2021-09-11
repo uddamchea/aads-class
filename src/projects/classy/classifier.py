@@ -41,16 +41,19 @@ def classify(people: dict) -> list[str]:
         for e in range(len(value)):
             strings = [str(integer) for integer in value]
             a_string = "".join(strings)
+            a_string=int(a_string)
         people[key] = a_string
-    #print(people)
+    print(people)
 
-    resultDict = {k: v for k,v in sorted(people.items(), key= lambda v: v[1], reverse=True)}
-    #return resultDict
+    # resultDict = {k: v for k,v in sorted(people.items(), key= lambda v: v[1], reverse=True)}
+    resultDict = [v[0] for v in sorted(people.items(), key=lambda kv: (-kv[1], kv[0]))]
+
+    return resultDict
     #print(resultDict)
 
-    answers = list(resultDict.keys())
+    # answers = list(resultDict.keys())
     #print(answers)
-    return answers
+    # return answers
 
 def read_file(filename: str) -> dict[str, str]:
     data = open(filename, "r")
@@ -64,7 +67,7 @@ def read_file(filename: str) -> dict[str, str]:
 
 def main():
     """Entry point"""
-    people = read_file("data/projects/classy/classy01.txt")
+    people = read_file("data/projects/classy/classy02.txt")
     print(classify(people))
 
 if __name__ == "__main__":
