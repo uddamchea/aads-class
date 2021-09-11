@@ -48,7 +48,7 @@ def classify(people: dict) -> list[str]:
     # Sort python dict by values
     # resultDict = {k: v for k,v in sorted(people.items(), key= lambda v: v[1], reverse=True)}
 
-    # Sort python dict by keys
+    # Sort python dict by values then by keys
     resultDict = [v[0] for v in sorted(people.items(), key=lambda kv: (-kv[1], kv[0]))]
 
     return resultDict
