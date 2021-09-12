@@ -4,14 +4,14 @@
 
 def hash_remainder(key: int, size: int) -> int:
     """Find hash using remainder"""
-    inputKey = int(input("Pick a key: "))
-    inputSize = int(input("Enter table size: "))
     dict = {}
     for i in dict.items():
-        slotLabels = [x for x in range(0, inputSize+1)]
-        dict[inputKey] = slotLabels
+        slotLabels = [x for x in range(0, size+1)]
+        dict[key] = slotLabels
     print(dict)
-
+    result = key % size
+    print(result)
+hash_remainder(5,3)
     # raise NotImplementedError
 
 
