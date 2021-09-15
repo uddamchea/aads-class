@@ -4,37 +4,42 @@
 
 def hash_remainder(key: int, size: int) -> int:
     """Find hash using remainder"""
-    dict = {}
-    for i in dict.items():
-        slotLabels = [x for x in range(0, size+1)]
-        dict[key] = slotLabels
-    print(dict)
-    result = key % size
-    print(result)
-hash_remainder(5,3)
-    # raise NotImplementedError
-
+    hashRemainder = key % size
+    return hashRemainder
 
 def hash_mid_sqr(key: int, size: int) -> int:
     """Find hash using mid-square method"""
-    #raise NotImplementedError
-    pass
+    keySqrStr = str(key ** 2)
+    # Slicing str (: operator)
+    hashMidSqr = int(keySqrStr[len(keySqrStr) // 2 - 1 : len(keySqrStr) // 2 + 1]) % size
 
+    if len(keySqrStr) % 2 != 0:
+        # Add a padding zero with zfill()
+        keySqrStr = keySqrStr.zfill(len(keySqrStr)+1) #this returns a str
+        return hashMidSqr
+    return hashMidSqr
 
 def hash_folding(key: int, size: int) -> int:
     """Find hash using folding method"""
-    #raise NotImplementedError
+    # raise NotImplementedError
     pass
 
 
 def hash_str(key: str, size: int) -> int:
     """Find string hash using simple sum-of-values method"""
-    #raise NotImplementedError
-    pass
+    totalSum = 0 
+    for i in range(0, len(key)):
+        totalSum += ord(key[i])
+
+    hashStr = totalSum % size
+    return hashStr
 
 
 def hash_str_weighted(key: str, size: int) -> int:
     """Find string hash using character positions as weights"""
-    #raise NotImplementedError
-    pass
+    totalSum = 0 
+    for i in range(0, len(key)):
+        totalSum += ord(key[i]) * i
 
+    hashStrW = totalSum % size
+    return hashStrW
