@@ -22,13 +22,16 @@ def hash_mid_sqr(key: int, size: int) -> int:
 def hash_folding(key: int, size: int) -> int:
     """Find hash using folding method"""
     keyStr = str(key)
+    # removes non digit 
     cleanKey = ''.join(c for c in keyStr if c.isdigit()) #returns a str
     n = 2
     splitKey = [cleanKey[i:i+n] for i in range(0, len(cleanKey), n)]
+
     for x in range(0, len(splitKey)):
         splitKey[x] = int(splitKey[x])
     totalKeySum = sum(splitKey)
     hashFolding = totalKeySum % size
+    
     return hashFolding
         
 def hash_str(key: str, size: int) -> int:
@@ -39,7 +42,6 @@ def hash_str(key: str, size: int) -> int:
 
     hashStr = totalSum % size
     return hashStr
-
 
 def hash_str_weighted(key: str, size: int) -> int:
     """Find string hash using character positions as weights"""
