@@ -1,41 +1,37 @@
-
 #!/usr/bin/env python3
 """
 `trees` implementation and driver
 Turning in-order and post-order tree traversals into pre-order
-
 """
-from collections import deque
-
 def get_preorder(inorder: str, postorder: str) -> str:
-    
-    def helper(pointer1, pointer2, postorder, root, postorderDict, stack):
+
+    result = []
+    postorderDict = {}
+
+    def helper(pointer1, pointer2, root):
 
         if pointer1 > pointer2:
             return root
-        
+    
         rootValue = postorder[root]
         root -= 1
         index = postorderDict[rootValue]
 
-        root = helper(index + 1, pointer2, postorder, root, postorderDict, stack)
-        root = helper(pointer1, index - 1, postorder, root, postorderDict, stack)
-        stack.append(rootValue)
+        root = helper(index + 1, pointer2, root)
+        root = helper(pointer1, index - 1, root)
+        result.append(rootValue)
 
         return root
 
-    postorderDict = {}
     for index, value in enumerate(inorder):
         postorderDict[value] = index
 
-    stack = deque()
-    lastIndex = len(inorder) - 1
-    helper(0, lastIndex, postorder, lastIndex, postorderDict, stack)
+    helper(0, len(inorder) - 1, len(inorder) - 1)
     
     getPreorder = str()
 
-    while stack:
-        getPreorder += str(stack.pop())
+    while result:
+        getPreorder += str(result.pop())
 
     return getPreorder
 
