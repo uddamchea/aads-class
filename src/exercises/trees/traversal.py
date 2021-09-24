@@ -5,7 +5,7 @@ Turning in-order and post-order tree traversals into pre-order
 """
 def get_preorder(inorder: str, postorder: str) -> str:
 
-    result = []
+    rootList = []
     postorderDict = {}
 
     def helper(pointer1, pointer2, root):
@@ -19,19 +19,19 @@ def get_preorder(inorder: str, postorder: str) -> str:
 
         root = helper(index + 1, pointer2, root)
         root = helper(pointer1, index - 1, root)
-        result.append(rootValue)
+        rootList.append(rootValue)
 
         return root
 
-    for index, value in enumerate(inorder):
-        postorderDict[value] = index
+    for i, j in enumerate(inorder):
+        postorderDict[j] = i
 
     helper(0, len(inorder) - 1, len(inorder) - 1)
     
-    getPreorder = str()
+    getPreorder = ""
 
-    while result:
-        getPreorder += str(result.pop())
+    while rootList:
+        getPreorder += str(rootList.pop())
 
     return getPreorder
 
