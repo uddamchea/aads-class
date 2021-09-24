@@ -66,7 +66,12 @@ class Board:
         :returns: `True` if two boards represent the same state, `False` otherwise
         """
         # TODO: Implement this function
-        ...
+        for i in range(3):
+            for j in range(3):
+                if type(self.items[i][j]) == type(other[i][j]):
+                    return True
+                else:
+                    return False
 
     def __hash__(self) -> int:
         """
@@ -107,8 +112,28 @@ class Board:
         Otherwise, return 0.
         """
         # TODO: Implement this function
-        ...
+        if type(self.items[0][0]) and type(self.items[1][0]) and type(self.items[2][0]) == X \
+        or type(self.items[0][0]) and type(self.items[0][1]) and type(self.items[0][2]) == X \
+        or type(self.items[0][1]) and type(self.items[1][1]) and type(self.items[2][1]) == X \
+        or type(self.items[1][0]) and type(self.items[1][1]) and type(self.items[1][2]) == X \
+        or type(self.items[0][2]) and type(self.items[1][2]) and type(self.items[2][2]) == X \
+        or type(self.items[2][0]) and type(self.items[2][1]) and type(self.items[2][2]) == X \
+        or type(self.items[0][0]) and type(self.items[1][1]) and type(self.items[2][2]) == X \
+        or type(self.items[0][2]) and type(self.items[1][1]) and type(self.items[2][0]) == X:
+            return 1
+        elif type(self.items[0][0]) and type(self.items[1][0]) and type(self.items[2][0]) == O \
+        or type(self.items[0][0]) and type(self.items[0][1]) and type(self.items[0][2]) == O \
+        or type(self.items[0][1]) and type(self.items[1][1]) and type(self.items[2][1]) == O \
+        or type(self.items[1][0]) and type(self.items[1][1]) and type(self.items[1][2]) == O \
+        or type(self.items[0][2]) and type(self.items[1][2]) and type(self.items[2][2]) == O \
+        or type(self.items[2][0]) and type(self.items[2][1]) and type(self.items[2][2]) == O \
+        or type(self.items[0][0]) and type(self.items[1][1]) and type(self.items[2][2]) == O \
+        or type(self.items[0][2]) and type(self.items[1][1]) and type(self.items[2][0]) == O:
+            return -1
+        else:
+            return 0
 
+        
     def full(self) -> bool:
         """
         Checks if the board is full
@@ -117,7 +142,12 @@ class Board:
         Otherwise, it should return `False`.
         """
         # TODO: Implement this function
-        ...
+        for i in range(3):
+            for j in range(3):
+                if isinstance(self.items[i][j], Dummy):
+                    return False
+                else:
+                    return True
 
     def drawXOs(self):
         """
@@ -138,7 +168,15 @@ class Board:
         :returns: a list of tuples where each tuple is a (row, column) pair
         """
         # TODO: Implement this function
-        ...
+        if self.full:
+            return []
+
+        for i in range(3):
+            for j in range(3):
+                if type(self.items[i][j]) == Dummy:
+                    availableCells = [(self.items[i]), (self.items[j])]
+                return availableCells
+
 
     def clone(self):
         """
