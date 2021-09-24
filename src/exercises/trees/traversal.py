@@ -2,6 +2,7 @@
 """
 `trees` implementation and driver
 Turning in-order and post-order tree traversals into pre-order
+I took inspiration from stackoverflow regarding the logic behind this
 """
 def get_preorder(inorder: str, postorder: str) -> str:
 
@@ -43,3 +44,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
