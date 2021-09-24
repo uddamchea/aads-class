@@ -168,16 +168,13 @@ class Board:
         :returns: a list of tuples where each tuple is a (row, column) pair
         """
         # TODO: Implement this function
-        if self.full:
-            return []
-
+        availableCells=[]
         for i in range(3):
             for j in range(3):
                 if type(self.items[i][j]) == Dummy:
-                    availableCells = [(self.items[i]), (self.items[j])]
-                return availableCells
-
-
+                    availableCells.append((i,j))
+        return availableCells
+        
     def clone(self):
         """
         Returns a copy of the board
@@ -270,8 +267,12 @@ def minimax(player, board, depth=6):
     the board is full.
     """
     # TODO: Implement this function
-    ...
-
+    if board.full or depth == 0:
+        return board.eval()
+    if player == COMPUTER:
+        pass
+    
+    
 
 class TicTacToe(tkinter.Frame):
     def __init__(self, master=None):
