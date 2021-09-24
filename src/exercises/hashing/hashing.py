@@ -19,7 +19,7 @@ def hash_mid_sqr(key: int, size: int) -> int:
         return hashMidSqr
     return hashMidSqr
 
-def hash_folding(key: int, size: int) -> int:
+def hash_folding(key: str, size: int) -> int:
     """Find hash using folding method"""
     keyStr = str(key)
     # removes non digit 
