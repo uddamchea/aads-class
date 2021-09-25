@@ -267,12 +267,32 @@ def minimax(player, board, depth=6):
     the board is full.
     """
     # TODO: Implement this function
-    if board.full or depth == 0:
+    # base cases
+    if board.full \
+    or depth == 0:
         return board.eval()
-    if player == COMPUTER:
-        pass
-    
-    
+
+    resultList =[]
+
+    for i, j in board.available:
+        
+        if player == 1:
+            board.items[i][j] = X
+            clone = board.clone()
+
+        else:
+            board.items[i][j] = O
+            clone = board.clone()
+
+        score = minimax(-player, clone, depth-1)
+        resultList.append(score)
+
+
+        if player == 1:
+            return max(resultList)
+
+        else:
+            return min(resultList)
 
 class TicTacToe(tkinter.Frame):
     def __init__(self, master=None):
@@ -372,7 +392,18 @@ class TicTacToe(tkinter.Frame):
             # if the best move is in the first row and third column
             # then maxMove would be (0,2).
             # TODO: Implement the game logic
-            ...
+            availableMoves = board.available()
+            availableMovesList = []
+            if self.level == "Naive":
+                for i in availableMoves:
+                    for j in availableMoves:
+                        maxMove = (i,j)
+                        availableMoves.append(maxMove)
+                return availableMoves
+            if self.level == "Easy":
+                pass
+            else:
+                pass
 
             row, col = maxMove
             board[row][col] = X(canvas)
