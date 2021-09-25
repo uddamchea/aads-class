@@ -112,23 +112,24 @@ class Board:
         Otherwise, return 0.
         """
         # TODO: Implement this function
-        if type(self.items[0][0]) and type(self.items[1][0]) and type(self.items[2][0]) == X \
-        or type(self.items[0][0]) and type(self.items[0][1]) and type(self.items[0][2]) == X \
-        or type(self.items[0][1]) and type(self.items[1][1]) and type(self.items[2][1]) == X \
-        or type(self.items[1][0]) and type(self.items[1][1]) and type(self.items[1][2]) == X \
-        or type(self.items[0][2]) and type(self.items[1][2]) and type(self.items[2][2]) == X \
-        or type(self.items[2][0]) and type(self.items[2][1]) and type(self.items[2][2]) == X \
-        or type(self.items[0][0]) and type(self.items[1][1]) and type(self.items[2][2]) == X \
-        or type(self.items[0][2]) and type(self.items[1][1]) and type(self.items[2][0]) == X:
+
+        if (self.items[0][0].eval() == COMPUTER and self.items[1][0].eval() == COMPUTER and self.items[2][0].eval() == COMPUTER) \
+        or (self.items[0][0].eval() == COMPUTER and self.items[0][1].eval() == COMPUTER and self.items[0][2].eval() == COMPUTER) \
+        or (self.items[0][1].eval() == COMPUTER and self.items[1][1].eval() == COMPUTER and self.items[2][1].eval() == COMPUTER) \
+        or (self.items[1][0].eval() == COMPUTER and self.items[1][1].eval() == COMPUTER and self.items[1][2].eval() == COMPUTER)  \
+        or (self.items[0][2].eval() == COMPUTER and self.items[1][2].eval() == COMPUTER and self.items[2][2].eval() == COMPUTER)  \
+        or (self.items[2][0].eval() == COMPUTER and self.items[2][1].eval() == COMPUTER and self.items[2][2].eval() == COMPUTER)  \
+        or (self.items[0][0].eval() == COMPUTER and self.items[1][1].eval() == COMPUTER and self.items[2][2].eval() == COMPUTER)  \
+        or (self.items[0][2].eval() == COMPUTER and self.items[1][1].eval() == COMPUTER and self.items[2][0].eval() == COMPUTER) :
             return 1
-        elif type(self.items[0][0]) and type(self.items[1][0]) and type(self.items[2][0]) == O \
-        or type(self.items[0][0]) and type(self.items[0][1]) and type(self.items[0][2]) == O \
-        or type(self.items[0][1]) and type(self.items[1][1]) and type(self.items[2][1]) == O \
-        or type(self.items[1][0]) and type(self.items[1][1]) and type(self.items[1][2]) == O \
-        or type(self.items[0][2]) and type(self.items[1][2]) and type(self.items[2][2]) == O \
-        or type(self.items[2][0]) and type(self.items[2][1]) and type(self.items[2][2]) == O \
-        or type(self.items[0][0]) and type(self.items[1][1]) and type(self.items[2][2]) == O \
-        or type(self.items[0][2]) and type(self.items[1][1]) and type(self.items[2][0]) == O:
+        elif (self.items[0][0].eval() == HUMAN and self.items[1][0].eval() == HUMAN and self.items[2][0].eval() == HUMAN)  \
+        or (self.items[0][0].eval() == HUMAN and self.items[0][1].eval() == HUMAN and self.items[0][2].eval() == HUMAN)  \
+        or (self.items[0][1].eval() == HUMAN and self.items[1][1].eval() == HUMAN and self.items[2][1].eval() == HUMAN)  \
+        or (self.items[1][0].eval() == HUMAN and self.items[1][1].eval() == HUMAN and self.items[1][2].eval() == HUMAN)  \
+        or (self.items[0][2].eval() == HUMAN and self.items[1][2].eval() == HUMAN and self.items[2][2].eval() == HUMAN)  \
+        or (self.items[2][0].eval() == HUMAN and self.items[2][1].eval() == HUMAN and self.items[2][2].eval() == HUMAN)  \
+        or (self.items[0][0].eval() == HUMAN and self.items[1][1].eval() == HUMAN and self.items[2][2].eval() == HUMAN)  \
+        or (self.items[0][2].eval() == HUMAN and self.items[1][1].eval() == HUMAN and self.items[2][0].eval() == HUMAN) :
             return -1
         else:
             return 0
@@ -144,10 +145,10 @@ class Board:
         # TODO: Implement this function
         for i in range(3):
             for j in range(3):
-                if isinstance(self.items[i][j], Dummy):
+                if self.items[i][j].eval() == 0:
                     return False
-                else:
-                    return True
+                    
+        return True
 
     def drawXOs(self):
         """
@@ -268,21 +269,21 @@ def minimax(player, board, depth=6):
     """
     # TODO: Implement this function
     # base cases
-    if board.full \
+    if board.full() \
     or depth == 0:
         return board.eval()
 
     resultList =[]
 
-    for i, j in board.available:
+    for i, j in board.available():
         
         if player == 1:
-            board.items[i][j] = X
             clone = board.clone()
+            board.items[i][j] = X(board.screen.getcanvas())
 
         else:
-            board.items[i][j] = O
             clone = board.clone()
+            board.items[i][j] = O(board.screen.getcanvas())
 
         score = minimax(-player, clone, depth-1)
         resultList.append(score)
@@ -392,18 +393,34 @@ class TicTacToe(tkinter.Frame):
             # if the best move is in the first row and third column
             # then maxMove would be (0,2).
             # TODO: Implement the game logic
+
             availableMoves = board.available()
-            availableMovesList = []
-            if self.level == "Naive":
-                for i in availableMoves:
-                    for j in availableMoves:
-                        maxMove = (i,j)
-                        availableMoves.append(maxMove)
-                return availableMoves
-            if self.level == "Easy":
-                pass
-            else:
-                pass
+            pos_score_Dict = {}
+            for i,j in availableMoves:
+                clone = board.clone()
+                clone.items[i][j] = X(board.screen.getcanvas())
+                
+                result = minimax(1, clone, AILVLS[(self.level)])
+                pos_score_Dict[(i, j)] = result
+            maxMove = [k for k, v in pos_score_Dict.items() if v == result][0]
+
+            # if self.level == "Easy":
+            #     for i,j in availableMoves:
+            #         board.clone()
+            #         board.items[i][j] = X(canvas)
+                    
+            #         result = minimax(1, board, depth=2)
+            #         pos_score_Dict[(i, j)] = result
+            #     maxMove = [k for k, v in pos_score_Dict.items() if v == result][0]
+                    
+            # else:
+            #     for i,j in availableMoves:
+            #         board.clone()
+            #         board.items[i][j] = X(canvas)
+                    
+            #         result = minimax(1, board, depth=6)
+            #         pos_score_Dict[(i, j)] = result
+            #     maxMove = [k for k, v in pos_score_Dict.items() if v == result][0]
 
             row, col = maxMove
             board[row][col] = X(canvas)
