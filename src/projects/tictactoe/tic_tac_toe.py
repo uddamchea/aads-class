@@ -402,25 +402,7 @@ class TicTacToe(tkinter.Frame):
                 
                 result = minimax(1, clone, AILVLS[(self.level)])
                 pos_score_Dict[(i, j)] = result
-            maxMove = [k for k, v in pos_score_Dict.items() if v == result][0]
-
-            # if self.level == "Easy":
-            #     for i,j in availableMoves:
-            #         board.clone()
-            #         board.items[i][j] = X(canvas)
-                    
-            #         result = minimax(1, board, depth=2)
-            #         pos_score_Dict[(i, j)] = result
-            #     maxMove = [k for k, v in pos_score_Dict.items() if v == result][0]
-                    
-            # else:
-            #     for i,j in availableMoves:
-            #         board.clone()
-            #         board.items[i][j] = X(canvas)
-                    
-            #         result = minimax(1, board, depth=6)
-            #         pos_score_Dict[(i, j)] = result
-            #     maxMove = [k for k, v in pos_score_Dict.items() if v == result][0]
+            maxMove = max(pos_score_Dict, key=pos_score_Dict.get)
 
             row, col = maxMove
             board[row][col] = X(canvas)
