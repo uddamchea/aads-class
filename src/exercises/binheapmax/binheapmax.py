@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Binary Heap implementation"""
 
-
 class BinaryHeapMax:
     """Heap class implementation"""
 
@@ -12,11 +11,23 @@ class BinaryHeapMax:
 
     def _perc_up(self, cur_idx):
         """Move a node up"""
-        raise NotImplementedError
+        while (cur_idx - 1) // 2 >= 0:
+            parent_idx = (cur_idx - 1) // 2
+            if self._heap[cur_idx] > self._heap[parent_idx]:
+                self._heap[cur_idx], self._heap[parent_idx] = self._heap[parent_idx], self._heap[cur_idx]
+            parent_idx = cur_idx    
+            # cur_idx = parent_idx
 
     def _perc_down(self, cur_idx):
         """Move a node down"""
-        raise NotImplementedError
+        while 2 * cur_idx + 2 < len(self._heap):
+            max_child_idx = self.get_max_child(cur_idx)
+            if self._heap[cur_idx] < self._heap[max_child_idx]:
+                self._heap[cur_idx], self._heap[max_child_idx] = self._heap[max_child_idx], self._heap[cur_idx]
+            else:
+                return
+            max_child_idx = cur_idx
+            # cur_idx = max_child_idx
 
     def insert(self, item):
         """Add a new item. Optional for this exercise"""
@@ -28,11 +39,19 @@ class BinaryHeapMax:
 
     def heapify(self, not_a_heap):
         """Turn a list into a heap"""
-        raise NotImplementedError
+        self._heap = not_a_heap[:]
+        cur_idx = len(self._heap) // 2 - 1
+        while cur_idx >= 0:
+            self._perc_down(cur_idx)
+            cur_idx = cur_idx - 1
 
     def get_max_child(self, parent_idx):
         """Get the greater child"""
-        raise NotImplementedError
+        if 2 * parent_idx + 2 > len(self._heap) - 1:
+            return 2 * parent_idx + 1
+        if self._heap[2 * parent_idx + 1] < self._heap[2 * parent_idx + 2]:
+            return 2 * parent_idx + 2
+        return 2 * parent_idx + 2
 
     def __len__(self):
         """Get heap size"""
