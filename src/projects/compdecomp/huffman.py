@@ -42,13 +42,14 @@ def build_tree(all_freq: dict) -> Node:
     """
     tree = []
 
-    for key, value in all_freq.items():
-        letterAndFreq = Node(key, value)
+    for i, j in all_freq.items():
+        letterAndFreq = Node(i, j)
         heapq.heappush(tree, letterAndFreq)
 
     while len(tree) > 1:
         leftNode = heapq.heappop(tree)
         rightNode = heapq.heappop(tree)
+
         rootTuple = Node(tree, leftNode.weight + rightNode.weight)
         rootTuple.left = leftNode
         rootTuple.right = rightNode
@@ -138,7 +139,7 @@ def print_codes(d: dict, weights: dict) -> None:
     :param d: character-to-code mapping
     :param weights: character-to-frequency mapping
     """
-    # print(f"{'Letter':10s}{'Weight':^10s}{'Code':^10s}{'Length':^5s}")
+    print(f"{'Letter':10s}{'Weight':^10s}{'Code':^10s}{'Length':^5s}")
 
 
 def load_codes(codes: dict) -> Node:
@@ -217,20 +218,23 @@ def decompress(bytestream: bytes, padding: int, tree: Node) -> str:
     :param tree: root of the Huffman tree
     :return decompressed (decoded) text
     """
-    decompressedText = ""
-    bytestream = bytestream[:-padding]
-    for i in bytestream:
-        if i == "0":
-            if tree.left is not None:
-                tree = tree.left
-                decompressedText += tree.value
-        else:
-            if tree.right is not None:
-                tree = tree.right
-                decompressedText += tree.value
-    return decompressedText
-    
+    # test = int.from_bytes(bytestream, "big")
+    # bit = bin(test)[2:]
+    bit = "".join(format(byte, '08b') for byte in bytestream)
+    bitnoPadding = bit[:-padding]
 
+    result = ""
+    i = 0
+    code = ""
+    for i in bitnoPadding:
+        code += i
+        if follow_tree(tree, code):
+            result += follow_tree(tree, code)
+            code = ""
+    return result
+        
+
+    
 def main():
     """Main function"""
     parser = argparse.ArgumentParser(description="Greet the audience")
