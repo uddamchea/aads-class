@@ -119,6 +119,9 @@ def mark_tree(d1: dict, d2: dict, root: Node, path: str) -> Union[None, tuple]:
     :param path: path to the current node
     :return (d1, d2) tuple
     """
+    if root.value is None:
+        return
+        
     if root.left is None and root.right is None:
         d1[root.value] = path
         d2[path] = root.value
@@ -157,30 +160,38 @@ def load_codes(codes: dict) -> Node:
         bit = codes[i]
         for j in range(len(i)):
             if j != len(i) - 1:    
+
                 if i[j] == '0' and newRoot.left is None:
                     treeNode = Node(None, None)
                     newRoot.left = treeNode
                     newRoot = newRoot.left
+
+                if i[j] == '0' and newRoot.left is not None:
+                    newRoot = newRoot.left
+        
                 if i[j] == '1' and newRoot.right is None:
                     treeNode = Node(None, None)
                     newRoot.right = treeNode
                     newRoot = newRoot.right
-                if i[j] == '0' and newRoot.left is not None:
-                    newRoot = newRoot.left
+
                 if i[j] == '1' and newRoot.right is not None:
                     newRoot = newRoot.right
+
             else:    
                 if i[j] == '0' and newRoot.left is None:
                     treeNode = Node(None, None)
                     treeNode.value = bit
                     newRoot.left = treeNode
+                    
+                if i[j] == '0' and newRoot.left is not None:
+                    treeNode = newRoot.left
+                    treeNode.value = bit
+
                 if i[j] == '1' and newRoot.right is None:
                     treeNode = Node(None, None)
                     treeNode.value = bit
                     newRoot.right = treeNode
-                if i[j] == '0' and newRoot.left is not None:
-                    treeNode = newRoot.left
-                    treeNode.value = bit
+
                 if i[j] == '1' and newRoot.right is not None:
                     treeNode = newRoot.right
                     treeNode.value = bit
