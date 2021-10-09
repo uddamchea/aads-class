@@ -139,7 +139,9 @@ def print_codes(d: dict, weights: dict) -> None:
     :param d: character-to-code mapping
     :param weights: character-to-frequency mapping
     """
-    print(f"{'Letter':10s}{'Weight':^10s}{'Code':^10s}{'Length':^5s}")
+    print(f"{'Letter':10s}\
+        {'Weight':^10s}\
+        {'Code':^10s}")
 
 
 def load_codes(codes: dict) -> Node:
@@ -152,23 +154,23 @@ def load_codes(codes: dict) -> Node:
     cur = root
 
     for i in codes:
-        val = codes[i]
+        bit = codes[i]
         for j in range(len(i)):
             if j == len(i) - 1:    
                 if i[j] == '0' and cur.left is None:
                     node = Node(None, None)
-                    node.value = val
+                    node.value = bit
                     cur.left = node
                 if i[j] == '1' and cur.right is None:
                     node = Node(None, None)
-                    node.value = val
+                    node.value = bit
                     cur.right = node
                 if i[j] == '0' and cur.left is not None:
                     node = cur.left
-                    node.value = val
+                    node.value = bit
                 if i[j] == '1' and cur.right is not None:
                     node = cur.right
-                    node.value = val
+                    node.value = bit
             else:
                 if i[j] == '0' and cur.left is None:
                     node = Node(None, None)
