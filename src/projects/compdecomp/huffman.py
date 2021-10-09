@@ -12,7 +12,6 @@ from typing import List, Tuple, Union
 
 DATA_DIR = pathlib.Path("data/projects/compdecomp/")
 
-
 class Node:
     """Class Node"""
 
@@ -38,99 +37,199 @@ class Node:
 def build_tree(all_freq: dict) -> Node:
     """
     Construct a Huffman tree from the text
-
     :param all_freq: frequency table
     :return tuple the tree root
     """
-    heap: List[Node] = []
-    # TODO: Implement this function
-    raise NotImplementedError
+    tree = []
 
+    for key, value in all_freq.items():
+        letterAndFreq = Node(key, value)
+        heapq.heappush(tree, letterAndFreq)
+
+    while len(tree) > 1:
+        leftNode = heapq.heappop(tree)
+        rightNode = heapq.heappop(tree)
+        rootTuple = Node(tree, leftNode.weight + rightNode.weight)
+        rootTuple.left = leftNode
+        rootTuple.right = rightNode
+        heapq.heappush(tree, rootTuple)
+
+    return(rootTuple)
 
 def traverse_tree(root: Node) -> str:
     """
     Traverse a tree pre-order and return the result
-
     :param root: tree root
     :return values of a tree
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    # pre-order is root-left-right
+    leftSubtree = []  
+    rightSubtree = []  
+    leftSubtree.append(root)
 
+    while len(leftSubtree) > 0:  
+        treeNode = leftSubtree.pop()  
+
+        if treeNode.left is None:  
+            rightSubtree.append(treeNode)
+
+        else:
+            if treeNode.left is not None: 
+                leftSubtree.append(treeNode.left)  
+            leftSubtree.append(treeNode.right)  
+
+    treeValues = ""
+
+    for i in range(0, len(rightSubtree)):
+        rightSubtreeValue = rightSubtree.pop().value
+        treeValues += rightSubtreeValue
+
+    return " ".join(treeValues)
 
 def follow_tree(tree: Node, code: str) -> Union[str, None]:
     """
     Follow the code through the tree
-
     :param tree: tree root
     :param code: code to find
     :return node value or None
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    nodeValue = None
+
+    for i in code:
+
+        if i == "0":
+            tree = tree.left
+
+        if i == "1":
+            tree = tree.right
+        
+        if tree.left is None and tree.right is None:
+            nodeValue = tree.value
+
+    return nodeValue
 
 
 def mark_tree(d1: dict, d2: dict, root: Node, path: str) -> Union[None, tuple]:
     """
     Generate code for each letter in the text
-
     :param d1: character-to-code mapping
     :param d2: code-to-character mapping
     :param root: tree root
     :param path: path to the current node
     :return (d1, d2) tuple
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    if root.left is None and root.right is None:
+        d1[root.value] = path
+        d2[path] = root.value
 
+    if root.left is not None:
+        if root.left not in d1.keys():
+            mark_tree(d1, d2, root.left, path + "0")
+
+    if root.right is not None:
+        if root.right not in d1.keys():
+            mark_tree(d1, d2, root.right, path + "1")
+
+    return (d1,d2)
 
 def print_codes(d: dict, weights: dict) -> None:
     """
     Print letters of the text and their codes. The output is ordered by the letter weight.
-
     :param d: character-to-code mapping
     :param weights: character-to-frequency mapping
     """
-    print(f"{'Letter':10s}{'Weight':^10s}{'Code':^10s}{'Length':^5s}")
-    # TODO: Implement this function
-    raise NotImplementedError
+    # print(f"{'Letter':10s}{'Weight':^10s}{'Code':^10s}{'Length':^5s}")
 
 
 def load_codes(codes: dict) -> Node:
     """
     Build the Huffman tree from the stored code-to-character mapping
-
     :param codes: code-to-character mapping
     :return root of the Huffman tree
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    root = Node(None, None)
+    cur = root
 
+    for i in codes:
+        val = codes[i]
+        for j in range(len(i)):
+            if j == len(i) - 1:    
+                if i[j] == '0' and cur.left is None:
+                    node = Node(None, None)
+                    node.value = val
+                    cur.left = node
+                if i[j] == '1' and cur.right is None:
+                    node = Node(None, None)
+                    node.value = val
+                    cur.right = node
+                if i[j] == '0' and cur.left is not None:
+                    node = cur.left
+                    node.value = val
+                if i[j] == '1' and cur.right is not None:
+                    node = cur.right
+                    node.value = val
+            else:
+                if i[j] == '0' and cur.left is None:
+                    node = Node(None, None)
+                    cur.left = node
+                    cur = cur.left
+                if i[j] == '1' and cur.right is None:
+                    node = Node(None, None)
+                    cur.right = node
+                    cur = cur.right
+                if i[j] == '0' and cur.left is not None:
+                    cur = cur.left
+                if i[j] == '1' and cur.right is not None:
+                    cur = cur.right
+        cur = root
+    return root
 
 def compress(text: str, codes: dict) -> Tuple[bytes, int]:
     """
     Compress text using Huffman coding
-
     :param text: text to compress
     :param codes: character-to-code mapping
     :return (packed text, padding length) tuple
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    leadingZero = 0
+    bitStr = "".join(list(codes[i]for i in text))
+
+    while len(bitStr) % 8 > 0:
+        leadingZero += 1
+        bitStr += "0"
+
+    byteStr = []
+    bit_idx = 0
+
+    while bit_idx < len(bitStr):
+        byte = bitStr[bit_idx:bit_idx+8]
+        byteStr.append(int(byte, 2))
+        bit_idx += 8
+
+    return (bytes(byteStr), leadingZero)
 
 
 def decompress(bytestream: bytes, padding: int, tree: Node) -> str:
     """
     Decompress binary data using Huffman coding
-
     :param bytestream: bytes from the archived file
     :param padding: padding length
     :param tree: root of the Huffman tree
     :return decompressed (decoded) text
     """
-    # TODO: Implement this function
-    raise NotImplementedError
-
+    decompressedText = ""
+    bytestream = bytestream[:-padding]
+    for i in bytestream:
+        if i == "0":
+            if tree.left is not None:
+                tree = tree.left
+                decompressedText += tree.value
+        else:
+            if tree.right is not None:
+                tree = tree.right
+                decompressedText += tree.value
+    return decompressedText
+    
 
 def main():
     """Main function"""
