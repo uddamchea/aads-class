@@ -151,40 +151,40 @@ def load_codes(codes: dict) -> Node:
     :return root of the Huffman tree
     """
     root = Node(None, None)
-    cur = root
+    newRoot = root
 
     for i in codes:
         bit = codes[i]
         for j in range(len(i)):
             if j == len(i) - 1:    
-                if i[j] == '0' and cur.left is None:
-                    node = Node(None, None)
-                    node.value = bit
-                    cur.left = node
-                if i[j] == '1' and cur.right is None:
-                    node = Node(None, None)
-                    node.value = bit
-                    cur.right = node
-                if i[j] == '0' and cur.left is not None:
-                    node = cur.left
-                    node.value = bit
-                if i[j] == '1' and cur.right is not None:
-                    node = cur.right
-                    node.value = bit
+                if i[j] == '0' and newRoot.left is None:
+                    treeNode = Node(None, None)
+                    treeNode.value = bit
+                    newRoot.left = treeNode
+                if i[j] == '1' and newRoot.right is None:
+                    treeNode = Node(None, None)
+                    treeNode.value = bit
+                    newRoot.right = treeNode
+                if i[j] == '0' and newRoot.left is not None:
+                    treeNode = newRoot.left
+                    treeNode.value = bit
+                if i[j] == '1' and newRoot.right is not None:
+                    treeNode = newRoot.right
+                    treeNode.value = bit
             else:
-                if i[j] == '0' and cur.left is None:
-                    node = Node(None, None)
-                    cur.left = node
-                    cur = cur.left
-                if i[j] == '1' and cur.right is None:
-                    node = Node(None, None)
-                    cur.right = node
-                    cur = cur.right
-                if i[j] == '0' and cur.left is not None:
-                    cur = cur.left
-                if i[j] == '1' and cur.right is not None:
-                    cur = cur.right
-        cur = root
+                if i[j] == '0' and newRoot.left is None:
+                    treeNode = Node(None, None)
+                    newRoot.left = treeNode
+                    newRoot = newRoot.left
+                if i[j] == '1' and newRoot.right is None:
+                    treeNode = Node(None, None)
+                    newRoot.right = treeNode
+                    newRoot = newRoot.right
+                if i[j] == '0' and newRoot.left is not None:
+                    newRoot = newRoot.left
+                if i[j] == '1' and newRoot.right is not None:
+                    newRoot = newRoot.right
+        newRoot = root
     return root
 
 def compress(text: str, codes: dict) -> Tuple[bytes, int]:
