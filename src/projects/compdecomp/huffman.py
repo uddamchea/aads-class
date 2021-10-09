@@ -46,13 +46,13 @@ def build_tree(all_freq: dict) -> Node:
         letterAndFreq = Node(i, j)
         heapq.heappush(tree, letterAndFreq)
 
-    while len(tree) > 1:
-        leftNode = heapq.heappop(tree)
-        rightNode = heapq.heappop(tree)
-
-        rootTuple = Node(tree, leftNode.weight + rightNode.weight)
-        rootTuple.left = leftNode
-        rootTuple.right = rightNode
+    while len(tree) >= 2:
+        i1 = heapq.heappop(tree)
+        i2 = heapq.heappop(tree)
+        weightSum = i1.weight + i2.weight
+        rootTuple = Node(tree, weightSum)
+        rootTuple.left = i1
+        rootTuple.right = i2
         heapq.heappush(tree, rootTuple)
 
     return(rootTuple)
