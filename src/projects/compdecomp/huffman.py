@@ -156,7 +156,20 @@ def load_codes(codes: dict) -> Node:
     for i in codes:
         bit = codes[i]
         for j in range(len(i)):
-            if j == len(i) - 1:    
+            if j != len(i) - 1:    
+                if i[j] == '0' and newRoot.left is None:
+                    treeNode = Node(None, None)
+                    newRoot.left = treeNode
+                    newRoot = newRoot.left
+                if i[j] == '1' and newRoot.right is None:
+                    treeNode = Node(None, None)
+                    newRoot.right = treeNode
+                    newRoot = newRoot.right
+                if i[j] == '0' and newRoot.left is not None:
+                    newRoot = newRoot.left
+                if i[j] == '1' and newRoot.right is not None:
+                    newRoot = newRoot.right
+            else:    
                 if i[j] == '0' and newRoot.left is None:
                     treeNode = Node(None, None)
                     treeNode.value = bit
@@ -171,19 +184,7 @@ def load_codes(codes: dict) -> Node:
                 if i[j] == '1' and newRoot.right is not None:
                     treeNode = newRoot.right
                     treeNode.value = bit
-            else:
-                if i[j] == '0' and newRoot.left is None:
-                    treeNode = Node(None, None)
-                    newRoot.left = treeNode
-                    newRoot = newRoot.left
-                if i[j] == '1' and newRoot.right is None:
-                    treeNode = Node(None, None)
-                    newRoot.right = treeNode
-                    newRoot = newRoot.right
-                if i[j] == '0' and newRoot.left is not None:
-                    newRoot = newRoot.left
-                if i[j] == '1' and newRoot.right is not None:
-                    newRoot = newRoot.right
+
         newRoot = root
     return root
 
@@ -234,9 +235,7 @@ def decompress(bytestream: bytes, padding: int, tree: Node) -> str:
             result += follow_tree(tree, code)
             code = ""
     return result
-        
 
-    
 def main():
     """Main function"""
     parser = argparse.ArgumentParser(description="Greet the audience")
