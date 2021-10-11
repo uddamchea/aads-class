@@ -14,11 +14,17 @@ class BloomFilter:
 
     def _hash(self, word: str) -> tuple:
         """Return a tuple of k indices"""
-        return tuple((crc32(bytes(f"{word}{i}", "utf8")) % len(self._filter) for i in range(self._k)))
+        return tuple((crc32(bytes(f"{word}{i}", "utf8")) % len(self._filter) for i in range(self.k)))
 
     def add(self, word: str):
         """Add a dictionary word to the filter"""
-        raise NotImplementedError
+        a = 1
+        b = 2
+        return a,b
+        #call _hash
+        #hash the word with k=3 (use loop) to get a tuple of 3 elements
+        #call __contains__
+        #add into the dict if the an element of the tuple is available
 
     def __contains__(self, word: str) -> bool:
         """Check if a word in in the filter"""
