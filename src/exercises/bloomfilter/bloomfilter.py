@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 `bloomfilter` implementation and driver
-
 @authors:
 @version: 2021.10
 """
@@ -13,27 +12,23 @@ from zlib import crc32
 class BloomFilter:
     def __init__(self, size: int = 11, k: int = 3) -> None:
         """Initialize the filter"""
-        self.k = k
-        self._filter = [False] * size
-
+        # TODO: Implement this method
+        ...
 
     def hash(self, word: str) -> tuple[int, ...]:
         """Return a tuple of k indices"""
-        return tuple((crc32(bytes(f"{word}{i}", "utf8")) % len(self._filter) for i in range(self.k)))
+        # TODO: Implement this method
+        ...
 
     def add(self, word: str) -> None:
         """Add a dictionary word to the filter"""
-        a = 1
-        b = 2
-        return a,b
-        #call _hash
-        #hash the word with k=3 (use loop) to get a tuple of 3 elements
-        #call __contains__
-        #add into the dict if the an element of the tuple is available
+        # TODO: Implement this method
+        ...
 
     def __contains__(self, word: str) -> bool:
         """Check if a word in in the filter"""
-        return all([self._filter[i] for i in self._hash(word)])
+        # TODO: Implement this method
+        ...
 
     def __str__(self) -> str:
         """Return string representation of the filter"""
