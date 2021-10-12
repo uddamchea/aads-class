@@ -21,14 +21,14 @@ class BloomFilter:
 
     def add(self, word: str) -> None:
         """Add a dictionary word to the filter"""
-        #call _hash
-        #hash the word with k=3 (use loop) to get a tuple of 3 elements
-        #call __contains__
-        #add into the dict if the an element of the tuple is available
+        for i in range(self.k):
+            hashValue = hash("".join(word*(i+1)))
+            #not sure how to create a dict and add the hashValue to it
+
 
     def __contains__(self, word: str) -> bool:
         """Check if a word in in the filter"""
-        return all([self._filter[i] for i in self._hash(word)])
+        return all([self._filter[i] for i in self.hash(word)])
 
 
     def __str__(self) -> str:
