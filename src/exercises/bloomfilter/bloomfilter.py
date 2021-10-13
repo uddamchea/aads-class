@@ -20,12 +20,9 @@ class BloomFilter:
         return tuple((crc32(bytes(f"{word}{i}", "utf8")) % len(self._filter) for i in range(self.k)))
 
     def add(self, word: str) -> None:
-        """Add a dictionary word to the filter"""
         for i in range(self.k):
-            hashValue = hash("".join(word*(i+1)))
-            #not sure how to create a dict and add the hashValue to it
-
-
+            self._filter[self.hash(word)[i]] = True
+        
     def __contains__(self, word: str) -> bool:
         """Check if a word in in the filter"""
         return all([self._filter[i] for i in self.hash(word)])
@@ -38,7 +35,6 @@ class BloomFilter:
     def __len__(self) -> int:
         """Return size of the filter"""
         return len(self._filter)
-
 
 def main():
     bf = BloomFilter()
