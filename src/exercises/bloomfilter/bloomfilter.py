@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
 """
 `bloomfilter` implementation and driver
-@authors:
+@authors: Ratanak Uddam Chea
 @version: 2021.10
 """
 
