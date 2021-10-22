@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 `bloomfilter` testing
-
 @authors: Roman Yasinovskyy
 @version: 2021.10
 """
@@ -55,7 +54,6 @@ def test_bloomfilter_len():
 @pytest.mark.parametrize("dictionary, typos, expected", get_cases("small_dictionary"))
 def test_bloomfilter_small_filter(dictionary, typos, expected):
     """Testing the output
-
     Since the filter size is small, some mishits are expected
     """
     bf = BloomFilter(100, 7)
@@ -74,7 +72,6 @@ def test_bloomfilter_small_filter(dictionary, typos, expected):
 @pytest.mark.parametrize("dictionary, typos, _", get_cases("small_dictionary"))
 def test_bloomfilter_medium_filter(dictionary, typos, _):
     """Testing the output
-
     Since the filter size is sufficient, mishits are not expected
     """
     bf = BloomFilter(250, 7)
@@ -93,7 +90,6 @@ def test_bloomfilter_medium_filter(dictionary, typos, _):
 @pytest.mark.parametrize("_, typos, expected", get_cases("large_dictionary"))
 def test_bloomfilter_large_filter(the_bloom_filter, _, typos, expected):
     """Testing the output
-
     Even though the filter size is large, some mishits are expected
     """
     count = 0
