@@ -2,24 +2,40 @@
 """
 `anomalycounter` implementation
 
-@authors: Roman Yasinovskyy
+@authors: Ratanak Uddam Chea
 @version: 2021.10
 """
 
 from pathlib import Path
 
-
 def count(filename: str) -> int:
-    """Count number of anomalies/blobs in an image
 
-    :param filename: name of the file to process
-    :return: number of anomalies/blobs in the file
-    """
-    # TODO: Implement this function
-    # NOTE: You may define an auxillary function to implement the algorithm
-    ...
+  anomalyList = []
+  anomalyCounter = 0
+  readFile = open(filename, "r")
 
+  for anomaly in readFile:
+    anomaly = list(anomaly.replace("\n", ""))
+    anomalyList.append(anomaly)
 
+  def helper(anomalyList,i, j):
+
+    if len(anomalyList) > i >= 0 and len(anomalyList[0]) > j >= 0 and anomalyList[i][j] == "*":
+        anomalyList[i][j] = "."
+        helper(anomalyList, i+1, j)
+        helper(anomalyList, i-1, j)
+        helper(anomalyList, i, j+1)
+        helper(anomalyList, i, j-1)
+
+  for i in range(len(anomalyList)):
+    for j in range(len(anomalyList[0])):
+
+      if anomalyList[i][j] == "*":
+        anomalyCounter += 1
+        helper(anomalyList,i, j)
+
+  return anomalyCounter
+                   
 def main():
     """Entry point"""
     data_dir = "data/projects/anomalycounter/"
