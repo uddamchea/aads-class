@@ -12,7 +12,6 @@ Item = namedtuple("Item", ["value", "weight"])
 def knapsack(capacity: int, items: List[Item]) -> List[int]:
     """
     General Knapsack solution.
-
     This function takes the knapsack capacity and the list of items (named tuples) to consider.
     The function returns a list of chosen indices.
     This function is optional but highly recommended.
@@ -69,7 +68,6 @@ def knapsack(capacity: int, items: List[Item]) -> List[int]:
 def pick_questions_to_answer(filename: str) -> Tuple[List[int], int]:
     """
     Main selection function
-
     This function takes file name as an argument.
     The function returns a tuple of two items: the list of chosen indices and total point value of all selected questions.
     """
