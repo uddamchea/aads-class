@@ -3,7 +3,7 @@
 
 
 from pythonds3.graphs import Graph
-import toml
+import toml, heapq
 
 
 def read_toml(filename: str) -> Graph:
@@ -22,9 +22,33 @@ def read_toml(filename: str) -> Graph:
 
 def find_path(g: Graph, start: str) -> None:
     """Use Dijkstra's algorithm to find the shortest path from *start* to other vertices"""
-    path = g.dijkstra(g.get_vertex(start))
-    # return path
 
+    # dijkstra from pythonds3
+    # start.distance = 0
+    # not_yet_visited = [[start.distance, start]]
+    # heapq.heapify(not_yet_visited)
+    # while not_yet_visited:
+    #     current_vertex = heapq.heappop(not_yet_visited)[1]
+    #     for next_vertex in current_vertex.get_neighbors():
+    #         new_distance = current_vertex.distance + current_vertex.get_neighbor(
+    #             next_vertex
+    #         )
+    #         if new_distance < next_vertex.distance:
+    #             next_vertex.distance = new_distance
+    #             next_vertex.previous = current_vertex
+    #             found = False
+    #             for vertex in not_yet_visited:
+    #                 if vertex[1].key == next_vertex.key:
+    #                     vertex[0] = next_vertex.distance
+    #                     heapq.heapify(not_yet_visited)
+    #                     found = True
+    #             if not found:
+    #                 heapq.heappush(
+    #                     not_yet_visited, [next_vertex.distance, next_vertex]
+    #                 )
+
+    getVertex = g.get_vertex(start)
+    g.dijkstra(getVertex)
 
 def main():
     graph = read_toml("data/exercises/dijkstra/network.toml")
