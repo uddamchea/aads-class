@@ -16,8 +16,23 @@ def get_convex(filename: str) -> list:
     :param filename: name of a file with all all points
     :return: list of point in the correct order (starting with the rightmost-lowest)
     """
-    # TODO: Implement this function
-    ...
+    with open(filename) as f:
+        data = f.read().splitlines()
+
+    idx = 0
+    li = list()
+    
+    while idx < len(data):
+        test = data[idx].split()
+        if test[2] != "N":
+            li.append(test[0:2])
+        idx += 1
+
+    for i in range(0, len(li)):
+        for j in range(0, len(li[i])):
+            li[i][j] = int(li[i][j])
+    # print(li)
+    return li
 
 
 def measure_convex(hull_points: list) -> float:
@@ -27,8 +42,24 @@ def measure_convex(hull_points: list) -> float:
     :param hull_points: all points on the convex hull in counter-clockwise order
     :return: length of the convex hull
     """
-    # TODO: Implement this function
-    ...
+    idx = 0
+    totaldistance = 0
+
+    while idx < len(hull_points):
+        first = hull_points[idx]
+
+        if idx+1 >= len(hull_points):
+            second = hull_points[0]
+
+        else:
+            second = hull_points[idx+1]
+
+        totaldistance += (((second[0]-first[0])**2)+((second[1]-first[1])**2)) ** 0.5
+            
+        idx += 1
+
+    # print(totaldistance)  
+    return totaldistance  
 
 
 def main():
