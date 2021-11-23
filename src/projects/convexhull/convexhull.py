@@ -32,7 +32,24 @@ def get_convex(filename: str) -> list:
         for j in range(0, len(li[i])):
             li[i][j] = int(li[i][j])
     # print(li)
-    return li
+    li.sort()
+
+    convex = list()
+    convex.append(li[0])
+    convex.append(li[1])
+
+    def z(p1,p2,p3):
+        return ((p2[0] - p1[0]) * (p3[1]-p1[1]))  - ((p2[1]-p1[1]) * (p3[0]-p1[0]))
+
+    idx2 = 2
+
+    while idx2 < len(li):
+        while len(convex) > 1 and z(convex[-2], convex[-1], li[idx2]) < 0:
+            li.append(convex.pop())
+        convex.append(li[idx2])
+        idx2 += 1
+
+    return convex
 
 
 def measure_convex(hull_points: list) -> float:
