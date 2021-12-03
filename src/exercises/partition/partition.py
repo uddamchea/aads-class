@@ -5,7 +5,7 @@ from xml.dom import minidom
 from collections import namedtuple
 
 Vertex = namedtuple("Vertex", ["id", "x", "y", "key"])
-Edge = namedtuple("Edge", ["src", "dst", "weight"])
+Edge = namedtuple("Edge", ["src", "dest", "weight"])
 
 
 class Partition:
@@ -25,15 +25,26 @@ class Partition:
         Find the root of the destination vertex tree
         If they are different, set root of the destination vertex tree to the root of the source vertex tree
         """
-        raise NotImplementedError
-
+        # TODO
+        start = self._find_root(e.src) 
+        goal = self._find_root(e.dest)
+        if start != goal: 
+            self._forest[int(goal)] = start
+        
     def _find_root(self, node: int) -> int:
         """
         Find root of a node
 
         The root of a tree is a node that has its value matching the index in the forest
         """
-        raise NotImplementedError
+        # TODO
+        if self._forest[node] == node:
+            return node
+
+        else:
+            while node != self.forest[node]: 
+                node = self.forest[node]
+            return node
 
     def __str__(self) -> str:
         """Stringify the forest"""
@@ -57,8 +68,21 @@ def read_xml(filename: str) -> tuple:
     xml_edges = xml_graph.getElementsByTagName("Edges")[0].getElementsByTagName("Edge")
 
     # TODO: Add all vertices from the XML file to the dictionary of vertices
+    for vertex in xml_vertices:
+        id  = int(vertex.getAttribute("id"))
+        label = vertex.getAttribute("label")
+        x = float(vertex.getAttribute("x")) 
+        y = float(vertex.getAttribute("y"))
+
+        vertices[id] = Vertex(id, x, y, label)
 
     # TODO: Add all edges from the XML file to the list of edges
+    for edge in xml_edges:
+        source = int(edge.getAttribute("source"))
+        weight = float(edge.getAttribute("weight"))
+        destination = int(edge.getAttribute("destination"))
+        
+        edges.append(Edge(source, destination, weight))
 
     return vertices, edges
 
