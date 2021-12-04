@@ -37,7 +37,8 @@ class Stack:
         :param item: a new item to push onto the stack
         """
         # TODO: Implement this method
-        self.items.insert(0,item)
+        # self.items.insert(0,item)
+        heapq.heappush(self.items, (len(self.items) * -1, item))
 
 
     def pop(self) -> Any:
@@ -49,7 +50,8 @@ class Stack:
         """
         # TODO: Implement this method
         if len(self.items)>0:
-            return self.items.pop(0)
+            # heapq._heapify_max(self.items)
+            return heapq.heappop(self.items)[1]
         else:
             raise StackError("Cannot pop from an empty stack")
 
@@ -63,7 +65,10 @@ class Stack:
         """
         # TODO: Implement this method
         if len(self.items)>0:
-            return self.items[0]
+            # return self.items[len(self.items) * -1][1]
+            # using heapq
+            return heapq.nsmallest(1, self.items)[0][1]
+
         else:
             raise StackError("Nothing to see here, the stack is empty")
 
@@ -75,7 +80,7 @@ class Stack:
         :return: False if the stack is empty, True otherwise
         """
         # TODO: Implement this method
-        if len(self) != 0:
+        if len(self.items) != 0:
             return True
         else:
             return False
@@ -89,4 +94,3 @@ class Stack:
         """
         # TODO: Implement this method
         return len(self.items)
-
